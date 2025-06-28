@@ -11,7 +11,6 @@ It mimics the experience of navigating a UNIX-style terminal where users can typ
 - 🎨 Retro terminal-style UI with blinking cursor and keyboard shortcuts
 - ⌨️ CLI-like commands for exploring profile, projects, skills, etc.
 - 📂 Modular JavaScript command structure (ES Modules)
-- 💻 Responsive layout for mobile and desktop
 - 🧩 Easy to extend with custom commands
 
 ---
