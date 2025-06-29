@@ -18,8 +18,8 @@ It mimics the experience of navigating a UNIX-style terminal where users can typ
 
 Clone the repository
 
-git clone https://github.com/your-username/terminal-portfolio.git
-cd terminal-portfolio
+git clone https://github.com/chethankailash/terminal-style-portfolio.git
+cd terminal-style-portfolio
 
 Run the project locally You can simply open index.html in any modern web browser.
 
