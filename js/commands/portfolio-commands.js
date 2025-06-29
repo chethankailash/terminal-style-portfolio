@@ -1,146 +1,11 @@
+// commands/portfolio-commands.js - Portfolio-specific commands
+export class PortfolioCommands {
+    constructor(terminal) {
+        this.terminal = terminal;
+    }
 
-        class TerminalPortfolio {
-            constructor() {
-                this.output = document.getElementById('output');
-                this.input = document.getElementById('command-input');
-                this.commandHistory = [];
-                this.historyIndex = -1;
-                
-                this.commands = {
-                    help: this.showHelp.bind(this),
-                    about: this.showAbout.bind(this),
-                    skills: this.showSkills.bind(this),
-                    projects: this.showProjects.bind(this),
-                    experience: this.showExperience.bind(this),
-                    education: this.showEducation.bind(this),
-                    contact: this.showContact.bind(this),
-                    clear: this.clearScreen.bind(this),
-                    whoami: this.whoami.bind(this),
-                    ls: this.listFiles.bind(this),
-                    pwd: this.showPath.bind(this),
-                    cat: this.catFile.bind(this),
-                    date: this.showDate.bind(this),
-                    echo: this.echo.bind(this),
-                    neofetch: this.neofetch.bind(this)
-                };
-
-                this.initEventListeners();
-            }
-
-            initEventListeners() {
-                this.input.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter') {
-                        this.processCommand();
-                    } else if (e.key === 'ArrowUp') {
-                        e.preventDefault();
-                        this.navigateHistory('up');
-                    } else if (e.key === 'ArrowDown') {
-                        e.preventDefault();
-                        this.navigateHistory('down');
-                    } else if (e.key === 'Tab') {
-                        e.preventDefault();
-                        this.autocomplete();
-                    }
-                });
-
-                // Keep input focused
-                document.addEventListener('click', () => {
-                    this.input.focus();
-                });
-            }
-
-            processCommand() {
-                const command = this.input.value.trim();
-                
-                if (command) {
-                    this.commandHistory.push(command);
-                    this.historyIndex = this.commandHistory.length;
-                }
-
-                this.addToOutput(`chethan@ck.codes:~$ ${command}`, 'command');
-                
-                if (command) {
-                    const [cmd, ...args] = command.toLowerCase().split(' ');
-                    
-                    if (this.commands[cmd]) {
-                        this.commands[cmd](args);
-                    } else {
-                        this.addToOutput(`Command not found: ${cmd}. Type 'help' for available commands.`, 'error');
-                    }
-                }
-
-                this.input.value = '';
-                this.scrollToBottom();
-            }
-
-            addToOutput(text, className = '') {
-                const div = document.createElement('div');
-                div.className = `output ${className}`;
-                div.innerHTML = text;
-                this.output.appendChild(div);
-            }
-
-            scrollToBottom() {
-                window.scrollTo(0, document.body.scrollHeight);
-            }
-
-            navigateHistory(direction) {
-                if (direction === 'up' && this.historyIndex > 0) {
-                    this.historyIndex--;
-                    this.input.value = this.commandHistory[this.historyIndex];
-                } else if (direction === 'down' && this.historyIndex < this.commandHistory.length - 1) {
-                    this.historyIndex++;
-                    this.input.value = this.commandHistory[this.historyIndex];
-                } else if (direction === 'down' && this.historyIndex === this.commandHistory.length - 1) {
-                    this.historyIndex = this.commandHistory.length;
-                    this.input.value = '';
-                }
-            }
-
-            autocomplete() {
-                const partial = this.input.value.toLowerCase();
-                const matches = Object.keys(this.commands).filter(cmd => cmd.startsWith(partial));
-                
-                if (matches.length === 1) {
-                    this.input.value = matches[0];
-                } else if (matches.length > 1) {
-                    this.addToOutput(matches.join('  '), 'info');
-                }
-            }
-
-            // Command implementations
-            showHelp() {
-                const helpText = `
-<span class="success">Available Commands:</span>
-
-<span class="info">Portfolio Commands:</span>
-  about       - Learn about me
-  skills      - View my technical skills
-  projects    - See my projects
-  experience  - View work experience
-  education   - Academic background
-  contact     - Get in touch
-
-<span class="info">System Commands:</span>
-  help        - Show this help message
-  clear       - Clear the terminal
-  whoami      - Display current user
-  ls          - List directory contents
-  pwd         - Show current directory
-  cat [file]  - Display file contents
-  date        - Show current date
-  echo [text] - Display text
-  neofetch    - System information
-
-<span class="warning">Tips:</span>
-- Use arrow keys to navigate command history
-- Press Tab for command autocomplete
-                `;
-                this.addToOutput(helpText);
-            }
-
-            showAbout() {
-                const aboutText = `
+    showAbout() {
+        const aboutText = `
 <span class="success">About Me</span>
 
 Hi! I'm Chethan Kailashnath, a result-driven Software Developer with over 5+ years 
@@ -160,12 +25,12 @@ Packard Enterprise, where I focus on monitoring tools and infrastructure automat
 
 <span class="warning">Fact:</span> I reduced manual infrastructure monitoring time by 40% and 
 incident response time by 35% with my latest monitoring tool implementation!
-                `;
-                this.addToOutput(aboutText);
-            }
+        `;
+        this.terminal.addToOutput(aboutText);
+    }
 
-            showSkills() {
-                const skillsText = `
+    showSkills() {
+        const skillsText = `
 <span class="success">Technical Skills</span>
 
 <span class="info">Programming Languages:</span>
@@ -211,12 +76,12 @@ incident response time by 35% with my latest monitoring tool implementation!
 ├── JIRA/Confluence      ████████████ Expert
 ├── Git                  ████████████ Expert
 └── Linux/Unix           ████████████ Expert
-                `;
-                this.addToOutput(skillsText);
-            }
+        `;
+        this.terminal.addToOutput(skillsText);
+    }
 
-            showProjects() {
-                const projectsText = `
+    showProjects() {
+        const projectsText = `
 <span class="success">Featured Projects</span>
 
 <div class="project-item">
@@ -270,12 +135,12 @@ Optimized CA microservice for configuration management
 </div>
 
 Type 'cat project-name' for more details about any project.
-                `;
-                this.addToOutput(projectsText);
-            }
+        `;
+        this.terminal.addToOutput(projectsText);
+    }
 
-            showExperience() {
-                const experienceText = `
+    showExperience() {
+        const experienceText = `
 <span class="success">Work Experience</span>
 
 <span class="info">Software Engineer</span> @ Hewlett Packard Enterprise
@@ -314,12 +179,12 @@ Type 'cat project-name' for more details about any project.
 ├── Generated performance metrics reducing response time by 15%
 ├── Managed client escalations coordinating with three teams
 └── Technologies: Python, Java, Golang, Kubernetes, gRPC, Selenium
-                `;
-                this.addToOutput(experienceText);
-            }
+        `;
+        this.terminal.addToOutput(experienceText);
+    }
 
-            showEducation() {
-                const educationText = `
+    showEducation() {
+        const educationText = `
 <span class="success">Education</span>
 
 <span class="info">Master of Science in Computer Science (MSCS)</span>
@@ -361,12 +226,12 @@ PES University, Bengaluru, India
 ├── Software Development Life Cycle (SDLC)
 ├── DevOps and CI/CD practices
 └── Research and development methodologies
-                `;
-                this.addToOutput(educationText);
-            }
+        `;
+        this.terminal.addToOutput(educationText);
+    }
 
-            showContact() {
-                const contactText = `
+    showContact() {
+        const contactText = `
 <span class="success">Contact Information</span>
 
 <span class="info">Let's connect! I'm always open to discussing new opportunities,
@@ -374,9 +239,9 @@ collaborations, or technical challenges in cloud infrastructure and automation.<
 
 <div class="contact-item">📧 Email: chethankailashnath@gmail.com</div>
 <div class="contact-item">📱 Phone: +1 (312) *** - ****</div>
-<div class="contact-item">🌐 Website: ck.codes</div>
-<div class="contact-item">💼 LinkedIn: linkedin.com/in/chethan-kailashnath</div>
-<div class="contact-item">🐙 GitHub: github.com/chethankailashnath</div>
+<div class="contact-item">🌐 Website: www.ck.codes</div>
+<div class="contact-item">💼 LinkedIn: www.linkedin.com/in/chethankailash/</div>
+<div class="contact-item">🐙 GitHub: github.com/chethankailash</div>
 <div class="contact-item">📍 Location: Chicago, IL, USA</div>
 
 <span class="warning">Response Time:</span> I typically respond within 24 hours!
@@ -394,106 +259,7 @@ collaborations, or technical challenges in cloud infrastructure and automation.<
 ├── Microservices Architecture
 ├── Kubernetes & Container Orchestration
 └── Backend Development & APIs
-                `;
-                this.addToOutput(contactText);
-            }
-
-            clearScreen() {
-                this.output.innerHTML = '';
-            }
-
-            whoami() {
-                this.addToOutput('chethan', 'success');
-            }
-
-            listFiles() {
-                const files = `
-<span class="info">drwxr-xr-x</span>  chethan  groot    about.txt
-<span class="info">drwxr-xr-x</span>  chethan  groot    skills.json
-<span class="info">drwxr-xr-x</span>  chethan  groot    projects
-<span class="info">drwxr-xr-x</span>  chethan  groot    experience.md
-<span class="info">drwxr-xr-x</span>  chethan  groot    education.txt
-<span class="info">drwxr-xr-x</span>  chethan  groot    contact.vcf
-<span class="info">drwxr-xr-x</span>  chethan  groot    resume.pdf
-<span class="info">drwxr-xr-x</span>  chethan  groot    publications/
-                `;
-                this.addToOutput(files);
-            }
-
-            showPath() {
-                this.addToOutput('/home/chethan/portfolio', 'info');
-            }
-
-            catFile(args) {
-                if (!args.length) {
-                    this.addToOutput('Usage: cat [filename]', 'warning');
-                    return;
-                }
-
-                const file = args[0].toLowerCase();
-                switch(file) {
-                    case 'about.txt':
-                        this.showAbout();
-                        break;
-                    case 'skills.json':
-                        this.showSkills();
-                        break;
-                    case 'experience.md':
-                        this.showExperience();
-                        break;
-                    case 'education.txt':
-                        this.showEducation();
-                        break;
-                    case 'contact.vcf':
-                        this.showContact();
-                        break;
-                    case 'resume.pdf':
-                        this.addToOutput('📄 Resume.pdf - Download available at: ck.codes/resume.pdf', 'info');
-                        break;
-                    default:
-                        this.addToOutput(`cat: ${file}: No such file or directory`, 'error');
-                }
-            }
-
-            showDate() {
-                const now = new Date();
-                this.addToOutput(now.toString(), 'info');
-            }
-
-            echo(args) {
-                const text = args.join(' ');
-                this.addToOutput(text || '', 'success');
-            }
-
-            neofetch() {
-                const systemInfo = `
-<span class="ascii-art">
-
-  ██████╗ ██╗  ██╗    ██████╗ ██████╗ ██████╗ ███████╗███████╗
- ██╔════╝ ██║ ██╔╝   ██╔════╝██╔═══██╗██╔══██╗██╔════╝██╔════╝
- ██║      █████╔╝    ██║     ██║   ██║██║  ██║█████╗  ███████╗
- ██║      ██╔═██╗    ██║     ██║   ██║██║  ██║██╔══╝  ╚════██║
- ╚██████╗ ██║  ██╗██╗╚██████╗╚██████╔╝██████╔╝███████╗███████║
-  ╚═════╝ ╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝╚══════╝   
-</span>
-
-<span class="success">chethan@ck.codes</span>
-─────────────────────
-<span class="info">OS:</span> Portfolio Linux 
-<span class="info">Shell:</span> bash 5.1.8
-<span class="info">IDE:</span> VS Code
-<span class="info">Languages:</span> Python, Java, JS
-<span class="info">Frameworks:</span> FastAPI, Flask, React, Node.js, Vue.js
-<span class="info">Database:</span> MongoDB, PostgreSQL
-<span class="info">Cloud:</span> AWS, Google Cloud
-<span class="info">Status:</span> Available for opportunities
-<span class="info">Coffee:</span> ████████████ 100%
-                `;
-                this.addToOutput(systemInfo);
-            }
-        }
-
-        // Initialize the terminal when the page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            new TerminalPortfolio();
-        });
+        `;
+        this.terminal.addToOutput(contactText);
+    }
+}
